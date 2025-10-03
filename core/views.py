@@ -17,15 +17,15 @@ class BaseOwnedViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class AccountViewSet(BaseOwnedViewSet):
+class AccountView(BaseOwnedViewSet):
     queryset_base = Account.objects.all()
     serializer_class = AccountSerializer
 
-class CategoryViewSet(BaseOwnedViewSet):
+class CategoryView(BaseOwnedViewSet):
     queryset_base = Category.objects.all()
     serializer_class = CategorySerializer
 
-class TransactionViewSet(BaseOwnedViewSet):
+class TransactionView(BaseOwnedViewSet):
     queryset_base = Transaction.objects.select_related("account", "category")
     serializer_class = TransactionSerializer
 
@@ -33,7 +33,6 @@ class TransactionViewSet(BaseOwnedViewSet):
 @decorators.api_view(["GET"])
 def summary(request):
     qs = Transaction.objects.filter(user=request.user)
-    # filtros opcionais: ?ano=2025&mes=10
     ano = request.query_params.get("ano")
     mes = request.query_params.get("mes")
     if ano: qs = qs.filter(data__year=ano)
