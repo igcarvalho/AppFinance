@@ -19,7 +19,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     def validate_valor(self, valor):
         if valor is None or valor <= 0:
-            raise serializers.ValidationError("deve ser > 0")
+            raise serializers.ValidationError("must be > 0")
         return valor
 
     def validate(self, attrs):
@@ -30,16 +30,16 @@ class TransactionSerializer(serializers.ModelSerializer):
         category = attrs.get("category") or getattr(self.instance, "category", None)
         tipo = attrs.get("tipo") or getattr(self.instance, "tipo", None)
 
-        # coerência com a categoria
+        
         if category and tipo and category.tipo != tipo:
-            raise serializers.ValidationError({"tipo": "difere do tipo da categoria"})
+            raise serializers.ValidationError({"tipo": "differs from the category type "})
 
-        # ownership
+        
         if user:
             if account and account.user_id != user.id:
-                raise serializers.ValidationError({"account": "não pertence ao usuário"})
+                raise serializers.ValidationError({"account": "does not belong to the user"})
             if category and category.user_id != user.id:
-                raise serializers.ValidationError({"category": "não pertence ao usuário"})
+                raise serializers.ValidationError({"category": "does no belong to the user"})
 
         return attrs
 

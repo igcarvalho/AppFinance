@@ -19,7 +19,6 @@ class Account(TimeStamped):
 
     class Meta:
         constraints = [
-            # nome da conta único por usuário
             UniqueConstraint(fields=["user", "nome"], name="uniq_account_nome_per_user"),
         ]
 
@@ -46,12 +45,10 @@ class Transaction(TimeStamped):
     descricao = models.TextField(blank=True, default="")
 
     def clean(self):
-        # regra de coerência com a categoria
         if self.category and self.tipo != self.category.tipo:
-            raise ValidationError({"tipo": "difere do tipo da categoria"})
+            raise ValidationError({"tipo": "differs from the category type"})
 
     def save(self, *args, **kwargs):
-        # garante que validators + clean() rodam sempre
         self.full_clean()
         return super().save(*args, **kwargs)
 
