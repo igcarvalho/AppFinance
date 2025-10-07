@@ -39,15 +39,11 @@ class Transaction(TimeStamped):
     account = models.ForeignKey(Account, on_delete=models.PROTECT, related_name="transactions")
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     tipo = models.CharField(max_length=7, choices=TIPO)
-    valor = models.DecimalField(max_digits=12, decimal_places=2,
-                                validators=[MinValueValidator(Decimal("0.01"))])
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+                                
     data = models.DateField()
     descricao = models.TextField(blank=True, default="")
-
-    def clean(self):
-        if self.category and self.tipo != self.category.tipo:
-            raise ValidationError({"tipo": "differs from the category type"})
-
+     
     def save(self, *args, **kwargs):
         self.full_clean()
         return super().save(*args, **kwargs)

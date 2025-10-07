@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "core",
+    "drf_spectacular",
+    "drf_spectacular_sidecar"
 ]
 
 MIDDLEWARE = [
@@ -89,6 +91,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 20,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
 }
 
 SIMPLE_JWT = {

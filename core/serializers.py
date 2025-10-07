@@ -1,4 +1,5 @@
 # core/serializers.py
+from jsonschema import ValidationError
 from rest_framework import serializers
 from .models import Account, Category, Transaction
 
@@ -19,9 +20,9 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     def validate_valor(self, valor):
         if valor is None or valor <= 0:
-            raise serializers.ValidationError("must be > 0")
+            raise serializers.ValidationError("the transition value must be greater than 0")
         return valor
-
+    
     def validate(self, attrs):
         request = self.context.get("request")
         user = request.user if request else None
@@ -32,7 +33,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
         
         if category and tipo and category.tipo != tipo:
-            raise serializers.ValidationError({"tipo": "differs from the category type "})
+            raise serializers.ValidationError({"type": "differs from the category type "})
 
         
         if user:
