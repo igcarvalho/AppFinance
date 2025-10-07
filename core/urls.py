@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.http import JsonResponse
 from .views import AccountViewSet, CategoryViewSet, TransactionViewSet, summary
-from .views_auth import register
+from .views_auth import me, register
 
 def healthcheck(_):
     return JsonResponse({"status": "ok"})
@@ -18,4 +18,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("summary/", summary),
     path("auth/register/", register),
+    path('auth/me', me),
 ]

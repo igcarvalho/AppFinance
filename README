@@ -1,0 +1,88 @@
+# 💰 Finance Backend API
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
+![Django](https://img.shields.io/badge/Django-5.2-green?logo=django)
+![DRF](https://img.shields.io/badge/DRF-REST_Framework-red?logo=django)
+![License](https://img.shields.io/badge/license-MIT-yellow)
+![Status](https://img.shields.io/badge/status-In%20Development-orange)
+
+> A **Django + Django REST Framework** API built for **personal finance management**.  
+> It lets users manage **accounts**, **categories**, and **transactions** (income and expenses) with **JWT authentication**, filtering, pagination, and **Swagger documentation** powered by `drf-spectacular`.
+
+---
+
+## 🚀 Technologies
+
+- 🐍 **Python 3.10+**
+- ⚙️ **Django 5.2**
+- 🧩 **Django REST Framework**
+- 🔒 **JWT Authentication (SimpleJWT)**
+- 📊 **drf-spectacular** (Swagger + OpenAPI)
+- 🌐 **CORS Headers**
+- 🧠 **SQLite** (for local development)
+
+---
+
+## 🧱 API Structure
+
+### 🔐 Authentication
+| Method | Endpoint | Description |
+|:-------|:----------|:------------|
+| `POST` | `/api/auth/register/` | Register a new user |
+| `POST` | `/api/auth/token/` | Generate access and refresh tokens |
+| `POST` | `/api/auth/token/refresh/` | Refresh access token |
+| `GET`  | `/api/auth/me/` | Get current logged-in user info |
+
+---
+
+### 💼 Accounts
+| Method | Endpoint | Description |
+|:-------|:----------|:------------|
+| `GET` | `/api/accounts/` | List all user accounts |
+| `POST` | `/api/accounts/` | Create a new account |
+| `PUT` | `/api/accounts/{id}/` | Update an account |
+| `DELETE` | `/api/accounts/{id}/` | Delete an account |
+
+---
+
+### 🗂️ Categories
+| Method | Endpoint | Description |
+|:-------|:----------|:------------|
+| `GET` | `/api/categories/` | List categories (filterable by type) |
+| `POST` | `/api/categories/` | Create a new category |
+| `PUT` | `/api/categories/{id}/` | Update a category |
+| `DELETE` | `/api/categories/{id}/` | Delete a category |
+
+---
+
+### 💸 Transactions
+| Method | Endpoint | Description |
+|:-------|:----------|:------------|
+| `GET` | `/api/transactions/` | List transactions (with filters) |
+| `POST` | `/api/transactions/` | Create a new transaction |
+| `PUT` | `/api/transactions/{id}/` | Update a transaction |
+| `DELETE` | `/api/transactions/{id}/` | Delete a transaction |
+
+#### ⚠️ Validation Rules
+- Transactions **cannot have value ≤ 0**
+- Transaction `type` must match the category’s type  
+  _(Example: type = “INCOME” → category type must also be “INCOME”)_
+
+---
+
+### 📊 Financial Summary
+| Method | Endpoint | Description |
+|:-------|:----------|:------------|
+| `GET` | `/api/summary/` | Returns balance, total income, total expenses, and totals per category |
+
+**Example Response:**
+```json
+{
+  "balance": 2964.10,
+  "income": 3000.0,
+  "expenses": 35.9,
+  "by_category": [
+    {"category": "Salary", "total": 3000.0},
+    {"category": "Food", "total": 35.9}
+  ]
+}

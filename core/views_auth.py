@@ -24,3 +24,12 @@ def register(request):
     for nome,tipo in defaults:
         Category.objects.get_or_create(user=user, nome=nome, tipo=tipo)
     return response.Response({"id": user.id, "username": user.username}, status=status.HTTP_201_CREATED)
+
+
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes([permissions.IsAuthenticated])
+def me(request):
+    u = request.user
+    return response.Response({"id": u.id, "username": u.username, "email": u.email})
